@@ -6,19 +6,19 @@
 # have been included as part of this distribution.
 #
 import json
+import logging
 import os
 import pprint
-import logging
 import re
 
 import click
-
 from scrapli.driver import GenericDriver
 
 logging.basicConfig(format="[%(asctime)s] [%(name)s] [%(levelname)s] %(message)s")
 logger = logging.getLogger()
 
 pp = pprint.PrettyPrinter(indent=2, width=120)
+
 
 def compile_patterns() -> dict[str, re.Pattern]:
     """Compile a dictionary of string patterns into regex patterns.
@@ -30,15 +30,16 @@ def compile_patterns() -> dict[str, re.Pattern]:
         dict[str, Pattern]: A dictionary mapping each key to its compiled regex pattern.
     """
     return {
-      "IOS-XR": re.compile('Cisco IOS XR'),
-      "IOS-XE": re.compile('Cisco IOS-XE'),
-      "IOS": re.compile('Cisco IOS'),
-      "JunOS": re.compile('JunOS')
+        "IOS-XR": re.compile("Cisco IOS XR"),
+        "IOS-XE": re.compile("Cisco IOS-XE"),
+        "IOS": re.compile("Cisco IOS"),
+        "JunOS": re.compile("JunOS"),
     }
 
 
 def parse_output(output: str):
     pass
+
 
 def connect(hostname: str, username: str, password: str):
 
@@ -47,10 +48,12 @@ def connect(hostname: str, username: str, password: str):
         "auth_username": username,
         "auth_password": password,
         "auth_strict_key": False,
-        "asyncssh": {
-            "kex_algs": "+diffie-hellman-group1-sha1,diffie-hellman-group-exchange-sha1",
-            "encryption_algs": "+3des-cbc",
-        }
+        "transport_options": {
+            "asyncssh": {
+                "kex_algs": "+diffie-hellman-group1-sha1,diffie-hellman-group-exchange-sha1",
+                "encryption_algs": "+3des-cbc",
+            }
+        },
     }
 
     # Context manager is a great way to use scrapli, it will auto open/close the connection for you:
@@ -98,4 +101,4 @@ def cli(**cli_args):
     pp.pprint(cfg)
     logger.setLevel(cli_args["loglevel"].upper())
 
-    connect(cli_args['device'], cfg['username'], cfg['password'])
+    connect(cli_args["device"], cfg["username"], cfg["password"])
