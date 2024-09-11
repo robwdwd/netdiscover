@@ -48,8 +48,9 @@ def connect(hostname: str, username: str, password: str):
         "auth_username": username,
         "auth_password": password,
         "auth_strict_key": False,
+        "transport": 'ssh',
         "transport_options": {
-            "asyncssh": {
+            "ssh": {
                 "kex_algs": "+diffie-hellman-group1-sha1,diffie-hellman-group-exchange-sha1",
                 "encryption_algs": "+3des-cbc",
             }
