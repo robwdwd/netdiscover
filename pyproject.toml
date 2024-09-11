@@ -12,6 +12,7 @@ repository = "https://github.com/robwdwd/netdiscover"
 python = "^3.10"
 click = "^8.1.7"
 scrapli = {extras = ["ssh2"], version = "^2024.7.30"}
+aiosqlite = "^0.20.0"
 
 
 [tool.poetry.group.dev.dependencies]
