@@ -55,8 +55,10 @@ class DeviceWorker:
 
     def parse_output(self, output: str):
         for line in output:
+            pp.pprint(line)
             # Check each line against all regex patterns
             for label, pattern in self.match_re.items():
+                pp.pprint([label, pattern])
                 if re.search(pattern, line):
                     pp.pprint(label)
 
