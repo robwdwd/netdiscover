@@ -49,16 +49,16 @@ def compile_patterns() -> dict[str, re.Pattern]:
         dict[str, Pattern]: A dictionary mapping each key to its compiled regex pattern.
     """
     return {
-        "IOS-XR": re.compile("Cisco IOS XR"),
-        "IOS-XE": re.compile("Cisco IOS-XE"),
-        "IOS": re.compile("Cisco IOS"),
+        "IOS-XR": re.compile("Cisco IOS XR Software"),
+        "IOS-XE": re.compile("Cisco IOS-XE Software"),
+        "IOS": re.compile("Cisco IOS Software"),
         "JunOS": re.compile("JunOS"),
     }
 
 
 
 
-async def do_devices(devices: list, prog_args: dict):
+async def do_devices(devices: list, prog_args: dict, match_re: dict [str, re.Pattern]):
     queue = asyncio.Queue()
     db_lock = asyncio.Lock()
 
@@ -68,7 +68,7 @@ async def do_devices(devices: list, prog_args: dict):
         await queue.put(device)
 
     # Create three worker tasks to process the queue concurrently.
-    workers = [asyncio.create_task(DeviceWorker(db_con, db_lock, queue, prog_args).run(i)) for i in range(3)]
+    workers = [asyncio.create_task(DeviceWorker(db_con, db_lock, queue, match_re, prog_args ).run(i)) for i in range(3)]
 
     try:
         await asyncio.gather(*workers, return_exceptions=False)
@@ -154,6 +154,6 @@ def cli(**cli_args):
             "db_file": f"{tmp_db_dir}/results.db",
         }
 
-        asyncio.run(do_devices(devices, prog_args))
+        asyncio.run(do_devices(devices, prog_args, compile_patterns()))
 
 

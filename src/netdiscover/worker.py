@@ -8,6 +8,7 @@
 import asyncio
 import logging
 import pprint
+import re
 
 import aiosqlite
 from scrapli.driver import AsyncGenericDriver
@@ -31,6 +32,7 @@ class DeviceWorker:
         db_con: aiosqlite.Connection,
         db_lock: asyncio.Lock,
         queue: asyncio.Queue,
+        match_re: dict['str', re.Pattern],
         prog_args: dict,
     ) -> None:
         """Init.
@@ -49,9 +51,15 @@ class DeviceWorker:
         self.db_lock = db_lock
         self.prog_args = prog_args
         self.db_cursor = None
+        self.match_re = match_re
 
     def parse_output(self, output: str):
-        pass
+        for line in output:
+            # Check each line against all regex patterns
+            for label, pattern in self.match_re.items():
+                if re.search(pattern, line):
+                    pp.pprint(label)
+
 
     async def connect(self, hostname: str, username: str, password: str):
 
@@ -101,6 +109,8 @@ class DeviceWorker:
                     continue
 
                 pp.pprint(result)
+
+                self.parse_output(result)
 
                 # async with self.db_lock:
                 #     try:
