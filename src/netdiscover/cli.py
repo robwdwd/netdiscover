@@ -50,7 +50,7 @@ def compile_patterns() -> dict[str, re.Pattern]:
     """
     return {
         "IOS-XR": re.compile("Cisco IOS XR Software"),
-        "IOS-XE": re.compile("Cisco IOS-XE Software"),
+        "IOS-XE": re.compile("Cisco IOS XE Software"),
         "IOS": re.compile("Cisco IOS Software"),
         "JunOS": re.compile("JunOS"),
     }

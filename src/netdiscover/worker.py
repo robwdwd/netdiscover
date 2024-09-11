@@ -83,6 +83,7 @@ class DeviceWorker:
 
         async with AsyncGenericDriver(**MY_DEVICE) as conn:
             await conn.send_command("terminal length 0")
+            await conn.send_command("set cli screen-length 0")
             result = await conn.send_command("show version")
 
         return result.result
