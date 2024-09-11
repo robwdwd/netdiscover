@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "netdiscover"
+version = "0.1.0"
+description = "Discover facts about network devices"
+authors = ["Rob Woodward <rob@twfmail.uk>"]
+readme = "README.md"
+include = ["README.md", "LICENSE"]
+license = "BSD-2-Clause"
+repository = "https://github.com/robwdwd/netdiscover"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+click = "^8.1.7"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.8.0"
+flake8 = "^7.1.1"
+isort = "^5.13.2"
+pylint = "^3.2.7"
+pydocstyle = "^6.3.0"
+pytest = "^8.3.3"
+
+[tool.poetry.scripts]
+getise = "netdiscover.cli:cli"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
