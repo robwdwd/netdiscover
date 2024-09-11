@@ -60,9 +60,9 @@ class DeviceWorker:
             "auth_username": username,
             "auth_password": password,
             "auth_strict_key": False,
-            "transport": "asyncssh2",
+            "transport": "asyncssh",
             "transport_options": {
-                "asyncssh2": {
+                "asyncssh": {
                     "kex_algs": "+diffie-hellman-group1-sha1,diffie-hellman-group-exchange-sha1",
                     "encryption_algs": "+3des-cbc",
                 }
