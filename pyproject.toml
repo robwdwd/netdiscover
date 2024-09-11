@@ -23,7 +23,7 @@ pydocstyle = "^6.3.0"
 pytest = "^8.3.3"
 
 [tool.poetry.scripts]
-getise = "netdiscover.cli:cli"
+netdiscover = "netdiscover.cli:cli"
 
 [build-system]
 requires = ["poetry-core"]
